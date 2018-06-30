@@ -1,0 +1,167 @@
+#!/bin/bash
+
+#xset r off #disables key repeat
+
+INPUT=input
+echo -n Scanning
+~/ttyecho/ttyecho -n /dev/pts/0 scan
+
+#waits for scan command to finish
+
+while [ -z "$OUTT" ] || [ -z "OUT" ] #tests if there is an output ps4 devise
+
+	do
+
+		sleep .4
+		echo -n .
+
+		OUT=$(grep -B 3 'osd name set to .PlayStation 4' ceclog | grep -o [1-9]*.46 | sed 's/46/44/g')
+
+		OUTT=$(grep -B 4 'PlayStation 4' ceclog | grep -o 'device .[1-9]*' | grep -o '[1-9]*')
+
+
+	done
+#While to fnd ID finised
+echo "" > ~/ceclog #dont need that no more
+
+echo .
+echo Ready
+
+
+
+
+
+until [ $INPUT == never ]; do
+
+
+
+
+
+#asks user for one letter
+read -t .12 -s discard
+read -n 1 -s INPUT REST
+
+
+
+#power on
+if [ $INPUT == p ]
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 on\ $OUTT
+
+fi
+
+
+#power off
+if [ $INPUT == f ]
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 standby\ $OUTT
+		sleep .1
+		~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:09
+		sleep .8
+		~/ttyecho/ttyecho -n /dev/pts/0 standby\ $OUTT
+fi
+
+
+
+
+
+
+
+#select
+if [ $INPUT == s ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:00
+fi
+
+#back
+if [ $INPUT == b ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:0d
+fi
+
+
+
+
+
+#right
+if [ $INPUT == r ]
+	then
+		~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:04
+fi
+
+
+#left
+if [ $INPUT == l ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:03
+fi
+
+
+#down
+if [ $INPUT == d ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:02
+fi
+
+
+#up
+if [ $INPUT == u ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:01
+fi
+
+
+#home
+if [ $INPUT == h ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:09
+fi
+
+
+#option
+if [ $INPUT == o ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:0a
+fi
+
+#eject
+if [ $INPUT == "E" ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:4a
+fi
+
+
+#play
+if [ $INPUT == ">" ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:44
+fi
+
+#fastforward
+if [ $INPUT == "F" ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:49
+fi
+
+#rewind
+if [ $INPUT == "w" ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:48
+fi
+
+
+#Stop
+if [ $INPUT == "S" ] 
+        then
+                ~/ttyecho/ttyecho -n /dev/pts/0 tx\ $OUT:45
+fi
+
+
+
+
+
+
+
+done
+
+

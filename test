@@ -1,0 +1,7 @@
+#!/bin/bash
+#xset r off
+konsole -e ~/cecscript &
+sleep 10
+konsole -e ~/scripteee &
+
+
