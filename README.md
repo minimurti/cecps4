@@ -1,4 +1,7 @@
 # cecps4
+
+This Project has been moved over here: https://github.com/minimurti/murti-cec-remote
+
 linux scripts used to control ps4 with single keyboard inputs. 
 
 
